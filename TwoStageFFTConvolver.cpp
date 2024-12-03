@@ -90,11 +90,13 @@ bool TwoStageFFTConvolver::init(size_t headBlockSize,
     std::swap(headBlockSize, tailBlockSize);
   }
 
+#ifndef AUDIOFFT_DISABLE_ZERO_TRIMMING
   // Ignore zeros at the end of the impulse response because they only waste computation time
   while (irLen > 0 && ::fabs(ir[irLen-1]) < 0.000001f)
   {
     --irLen;
   }
+#endif
 
   _headBlockSize = NextPowerOf2(headBlockSize);
   _tailBlockSize = NextPowerOf2(tailBlockSize);

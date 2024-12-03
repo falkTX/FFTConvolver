@@ -91,6 +91,7 @@ bool FFTConvolver::init(size_t blockSize, const Sample* ir, size_t irLen)
     return false;
   }
   
+#ifndef AUDIOFFT_DISABLE_ZERO_TRIMMING
   // Ignore zeros at the end of the impulse response because they only waste computation time
   while (irLen > 0 && ::fabs(ir[irLen-1]) < 0.000001f)
   {
@@ -101,6 +102,7 @@ bool FFTConvolver::init(size_t blockSize, const Sample* ir, size_t irLen)
   {
     return true;
   }
+#endif
   
   _blockSize = NextPowerOf2(blockSize);
   _segSize = 2 * _blockSize;
